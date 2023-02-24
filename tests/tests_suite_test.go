@@ -71,25 +71,25 @@ func gatherLogs(vm VM) {
 	vm.Sudo("mount > /run/mounts")
 	vm.Sudo("blkid > /run/blkid")
 
-	//GatherAllLogs(
-	//	[]string{
-	//		"edgevpn@kairos",
-	//		"kairos-agent",
-	//		"cos-setup-boot",
-	//		"cos-setup-network",
-	//		"kairos",
-	//		"k3s",
-	//	},
-	//	[]string{
-	//		"/var/log/edgevpn.log",
-	//		"/var/log/kairos/agent.log",
-	//		"/run/pods.json",
-	//		"/run/disk",
-	//		"/run/mounts",
-	//		"/run/blkid",
-	//		"/run/events.json",
-	//		"/run/cmdline",
-	//	})
+	GatherAllLogs(
+		[]string{
+			"edgevpn@kairos",
+			"kairos-agent",
+			"cos-setup-boot",
+			"cos-setup-network",
+			"kairos",
+			"k3s",
+		},
+		[]string{
+			"/var/log/edgevpn.log",
+			"/var/log/kairos/agent.log",
+			"/run/pods.json",
+			"/run/disk",
+			"/run/mounts",
+			"/run/blkid",
+			"/run/events.json",
+			"/run/cmdline",
+		})
 }
 
 func startVM() (context.Context, VM) {

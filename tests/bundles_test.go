@@ -34,40 +34,42 @@ var _ = Describe("kairos bundles test", Label("bundles-test"), func() {
 			expectRebootedToActive(vm)
 		})
 
-		It("has grubenv file", func() {
-			By("checking after-install hook triggered")
+		It("passes tests", func() {
+			By("checking the grubenv file", func() {
+				By("checking after-install hook triggered")
 
-			Eventually(func() string {
-				out, _ := vm.Sudo("cat /oem/grubenv")
-				return out
-			}, 40*time.Minute, 1*time.Second).Should(
-				Or(
-					ContainSubstring("foobarzz"),
-				))
-		})
+				Eventually(func() string {
+					out, _ := vm.Sudo("cat /oem/grubenv")
+					return out
+				}, 40*time.Minute, 1*time.Second).Should(
+					Or(
+						ContainSubstring("foobarzz"),
+					))
+			})
 
-		It("has custom cmdline", func() {
-			By("waiting reboot and checking cmdline is present")
-			Eventually(func() string {
-				out, _ := vm.Sudo("cat /proc/cmdline")
-				return out
-			}, 30*time.Minute, 1*time.Second).Should(
-				Or(
-					ContainSubstring("foobarzz"),
-				))
-		})
+			By("checking if it has custom cmdline", func() {
+				By("waiting reboot and checking cmdline is present")
+				Eventually(func() string {
+					out, _ := vm.Sudo("cat /proc/cmdline")
+					return out
+				}, 30*time.Minute, 1*time.Second).Should(
+					Or(
+						ContainSubstring("foobarzz"),
+					))
+			})
 
-		It("has kubo extension", func() {
-			syset, err := vm.Sudo("systemd-sysext")
-			ls, _ := vm.Sudo("ls -liah /usr/local/lib/extensions")
-			fmt.Println("LS:", ls)
-			Expect(err).ToNot(HaveOccurred())
-			Expect(syset).To(ContainSubstring("kubo"))
+			By("checking if it has kubo extension", func() {
+				syset, err := vm.Sudo("systemd-sysext")
+				ls, _ := vm.Sudo("ls -liah /usr/local/lib/extensions")
+				fmt.Println("LS:", ls)
+				Expect(err).ToNot(HaveOccurred())
+				Expect(syset).To(ContainSubstring("kubo"))
 
-			ipfsV, err := vm.Sudo("ipfs version")
-			Expect(err).ToNot(HaveOccurred())
+				ipfsV, err := vm.Sudo("ipfs version")
+				Expect(err).ToNot(HaveOccurred())
 
-			Expect(ipfsV).To(ContainSubstring("0.15.0"))
+				Expect(ipfsV).To(ContainSubstring("0.15.0"))
+			})
 		})
 	})
 })
