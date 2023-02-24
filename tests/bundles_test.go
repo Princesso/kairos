@@ -59,15 +59,26 @@ var _ = Describe("kairos bundles test", Label("bundles-test"), func() {
 			})
 
 			By("checking if it has kubo extension", func() {
-				syset, err := vm.Sudo("systemd-sysext")
-				ls, _ := vm.Sudo("ls -liah /usr/local/lib/extensions")
-				fmt.Println("LS:", ls)
-				Expect(err).ToNot(HaveOccurred())
-				Expect(syset).To(ContainSubstring("kubo"))
+				Eventually(func() string {
+					out, _ := Sudo("systemd-sysext")
+					return out
+				}, 20*time.Minute, 3*time.Second).Should(ContainSubstring("kubo"), func() string {
+					// Debug output in case of an error
+					result := ""
+					out, _ := vm.Sudo("cat /etc/os-release")
+					result = result + fmt.Sprintf("os-release:\n%s\n", out)
+
+					out, _ = vm.Sudo("cat /usr/local/lib/extensions/kubo/usr/lib/extension-release.d/extension-release.kubo")
+					result = result + fmt.Sprintf("extension-release.kubo:\n%s\n", out)
+
+					out, _ = vm.Sudo("systemd-sysext status")
+					result = result + fmt.Sprintf("systemd-sysext status:\n%s\n", out)
+
+					return result
+				})
 
 				ipfsV, err := vm.Sudo("ipfs version")
-				Expect(err).ToNot(HaveOccurred())
-
+				Expect(err).ToNot(HaveOccurred(), ipfsV)
 				Expect(ipfsV).To(ContainSubstring("0.15.0"))
 			})
 		})
