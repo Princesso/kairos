@@ -21,6 +21,14 @@ jobs:
         include:
           - flavor: "opensuse-leap"
           - flavor: "opensuse-tumbleweed"
+          - flavor: "ubuntu"
+          - flavor: "ubuntu-20-lts"
+          - flavor: "ubuntu-22-lts"
+          - flavor: "alpine-ubuntu"
+          - flavor: "alpine-opensuse-leap"
+          - flavor: "fedora"
+          - flavor: "debian"
+          - flavor: "rockylinux"
     steps:
       - uses: actions/checkout@v3
       - run: |
@@ -155,10 +163,13 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - flavor: "alpine-opensuse-leap"
           - flavor: "opensuse-leap"
-            port: 50002
           - flavor: "opensuse-tumbleweed"
-            port: 50003
+          - flavor: "ubuntu"
+          - flavor: "debian"
+          - flavor: "ubuntu-20-lts"
+          - flavor: "ubuntu-22-lts"
     steps:
     - uses: actions/checkout@v3
     - run: |
@@ -232,6 +243,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - flavor: "alpine-opensuse-leap"
           - flavor: "opensuse-leap"
           # - flavor: "ubuntu"
     steps:
@@ -284,7 +296,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - flavor: "alpine-opensuse-leap"
           - flavor: "opensuse-leap"
+          - flavor: "ubuntu"
     steps:
     - uses: actions/checkout@v3
     - run: |
@@ -300,6 +314,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - flavor: "alpine-opensuse-leap"
           - flavor: "opensuse-leap"
           # - flavor: "ubuntu"
     steps:
@@ -365,6 +380,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - flavor: "alpine-opensuse-leap"
           - flavor: "opensuse-leap"
           # - flavor: "ubuntu"
     steps:
