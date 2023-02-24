@@ -71,7 +71,7 @@ func gatherLogs(vm VM) {
 	vm.Sudo("mount > /run/mounts")
 	vm.Sudo("blkid > /run/blkid")
 
-	GatherAllLogs(
+	vm.GatherAllLogs(
 		[]string{
 			"edgevpn@kairos",
 			"kairos-agent",
